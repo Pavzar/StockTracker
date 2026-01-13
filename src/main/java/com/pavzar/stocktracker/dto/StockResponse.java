@@ -1,4 +1,6 @@
 package com.pavzar.stocktracker.dto;
 
-public class StockResponse {
-}
+import lombok.Builder;
+
+@Builder
+public record StockResponse(String symbol, double price, String lastUpdated) { }

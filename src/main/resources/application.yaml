@@ -1,3 +1,10 @@
 spring:
   application:
     name: stocktracker
+
+alpha:
+  vantage:
+    base:
+      url: "https://www.alphavantage.co/query"
+    api:
+      key: "api-key"
