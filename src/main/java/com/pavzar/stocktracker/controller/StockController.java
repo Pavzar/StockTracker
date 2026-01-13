@@ -1,5 +1,6 @@
 package com.pavzar.stocktracker.controller;
 
+import com.pavzar.stocktracker.dto.StockOverviewResponse;
 import com.pavzar.stocktracker.dto.StockResponse;
 import com.pavzar.stocktracker.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,10 @@ public class StockController {
     @GetMapping("/{stockSymbol}")
     public StockResponse getStock(@PathVariable String stockSymbol){
         return stockService.getStockForSymbol(stockSymbol.toUpperCase());
+    }
+
+    @GetMapping("{stockSymbol}/overview")
+    public StockOverviewResponse getStockOverview(@PathVariable String stockSymbol){
+        return stockService.getStockOverviewForSymbol(stockSymbol.toUpperCase());
     }
 }
