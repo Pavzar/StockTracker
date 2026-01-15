@@ -5,6 +5,7 @@ import com.pavzar.stocktracker.dto.FavoriteStockRequest;
 import com.pavzar.stocktracker.dto.StockOverviewResponse;
 import com.pavzar.stocktracker.dto.StockResponse;
 import com.pavzar.stocktracker.entity.FavoriteStock;
+import com.pavzar.stocktracker.service.StockQuoteService;
 import com.pavzar.stocktracker.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +18,17 @@ import java.util.List;
 public class StockController {
 
     private final StockService stockService;
+    private final StockQuoteService stockQuoteService;
 
     @Autowired
-    public StockController(StockService stockService) {
+    public StockController(StockService stockService, StockQuoteService stockQuoteService) {
         this.stockService = stockService;
+        this.stockQuoteService = stockQuoteService;
     }
 
     @GetMapping("/{stockSymbol}")
-    public StockResponse getStock(@PathVariable String stockSymbol) throws InterruptedException {
-        return stockService.getStockForSymbol(stockSymbol);
+    public StockResponse getStock(@PathVariable String stockSymbol){
+        return stockQuoteService.getStockForSymbol(stockSymbol);
     }
 
     @GetMapping("{stockSymbol}/overview")
