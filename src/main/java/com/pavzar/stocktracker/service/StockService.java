@@ -9,6 +9,7 @@ import io.github.resilience4j.ratelimiter.RateLimiter;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,11 +22,15 @@ public class StockService {
     private final FavoriteStockRepository favoriteStockRepository;
     private final RateLimiter alpahaVantageRateLimiter;
 
+
+    private final StockService self;
+
     @Autowired
-    public StockService(StockClient stockClient, FavoriteStockRepository favoriteStockRepository, RateLimiter alpahaVantageRateLimiter) {
+    public StockService(StockClient stockClient, FavoriteStockRepository favoriteStockRepository, RateLimiter alpahaVantageRateLimiter, @Lazy StockService self) {
         this.stockClient = stockClient;
         this.favoriteStockRepository = favoriteStockRepository;
         this.alpahaVantageRateLimiter = alpahaVantageRateLimiter;
+        this.self = self;
     }
 
     @Cacheable(value = "stocks", key = "#stockSymbol.trim().toUpperCase()")
@@ -84,8 +89,7 @@ public class StockService {
         List<FavoriteStock> favoriteStocks = favoriteStockRepository.findAll();
 
         return favoriteStocks.stream()
-                .map(FavoriteStock::getSymbol)
-                .map(this::getStockForSymbol)
+                .map(favStock -> self.getStockForSymbol(favStock.getSymbol()))
                 .toList();
     }
 }
