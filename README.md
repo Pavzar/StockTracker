@@ -1,6 +1,6 @@
 # StockTracker
 
-A Spring Boot REST API that fetches stock market data from **Alpha Vantage** and lets users maintain a list of favorite tickers in a database.  
+A Spring Boot REST API that fetches stock market data from **Alpha Vantage API** and lets users maintain a list of favorite tickers in a database.  
 Built as a portfolio project to demonstrate backend API design, external API integration, persistence, caching, and resiliency patterns.
 
 ## Diagram
