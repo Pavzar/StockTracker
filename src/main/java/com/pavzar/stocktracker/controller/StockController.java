@@ -24,8 +24,8 @@ public class StockController {
     }
 
     @GetMapping("/{stockSymbol}")
-    public StockResponse getStock(@PathVariable String stockSymbol){
-        return stockService.getStockForSymbol(stockSymbol.toUpperCase());
+    public StockResponse getStock(@PathVariable String stockSymbol) throws InterruptedException {
+        return stockService.getStockForSymbol(stockSymbol);
     }
 
     @GetMapping("{stockSymbol}/overview")
@@ -42,5 +42,10 @@ public class StockController {
     public ResponseEntity<FavoriteStock> saveFavoriteStock(@RequestBody FavoriteStockRequest favoriteStock){
         FavoriteStock savedStock = stockService.saveFavorite(favoriteStock.getSymbol());
         return ResponseEntity.ok(savedStock);
+    }
+
+    @GetMapping("/favorites")
+    public List<StockResponse> getFavoriteWithPrices() {
+        return stockService.getFavoritesWithLivePrices();
     }
 }
