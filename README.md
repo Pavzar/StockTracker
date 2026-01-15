@@ -46,3 +46,63 @@ src/main/java/com/pavzar/stocktracker
 ├── dto/             # request/response DTOs
 └── config/          # WebClient + RateLimiter configuration
 ```
+
+## API Endpoints
+
+Base path:
+
+- `/api/v1/stocks`
+
+### Get live quote
+`GET /api/v1/stocks/{symbol}`
+
+Example:
+
+```bash
+curl "http://localhost:8080/api/v1/stocks/AAPL"
+```
+
+Response (example):
+
+```json
+{
+  "symbol": "AAPL",
+  "price": 225.34,
+  "lastUpdated": "2025-01-10"
+}
+```
+
+### Get company overview
+`GET /api/v1/stocks/{symbol}/overview`
+
+```bash
+curl "http://localhost:8080/api/v1/stocks/AAPL/overview"
+```
+
+### Get daily history (last N days)
+`GET /api/v1/stocks/{symbol}/history?days=30`
+
+```bash
+curl "http://localhost:8080/api/v1/stocks/AAPL/history?days=10"
+```
+
+### Add a favorite
+`POST /api/v1/stocks/favorites`
+
+```bash
+curl -X POST "http://localhost:8080/api/v1/stocks/favorites" \
+  -H "Content-Type: application/json" \
+  -d '{ "symbol": "AAPL" }'
+```
+
+- If the symbol already exists, the API returns **409 Conflict**.
+
+### List favorites with live prices
+`GET /api/v1/stocks/favorites`
+
+```bash
+curl "http://localhost:8080/api/v1/stocks/favorites"
+```
+
+
+
